@@ -115,7 +115,7 @@ void FramClass::setClock(uint32_t clockSpeed) {
   #ifdef SPI_HAS_TRANSACTION
   FRAMSettings = SPISettings(clockSpeed, MSBFIRST, SPI_MODE0);
   #if defined(ARDUINO_ARCH_STM32)
-  spi->beginTransaction(csPin, FRAMSettings);
+  spi->beginTransaction(FRAMSettings);
   #else
   spi->beginTransaction(FRAMSettings);
   #endif
@@ -321,7 +321,7 @@ uint8_t FramClass::spiSend(uint8_t data)
     fastWrite(clkPort, clkMask, LOW);
   }
 #if defined(ARDUINO_ARCH_STM32)
-  else { reply = spi->transfer(csPin, data, SPI_CONTINUE); }
+  else { reply = spi->transfer(csPin, data); }
 #else
   else { reply = spi->transfer(data); }
 #endif
@@ -346,7 +346,7 @@ uint16_t FramClass::spiSend16(uint16_t data)
     fastWrite(clkPort, clkMask, LOW);
   }
 #if defined(ARDUINO_ARCH_STM32)
-  else { reply = spi->transfer16(csPin, data, SPI_CONTINUE); }
+  else { reply = spi->transfer16(csPin, data); }
 #else
   else { reply = spi->transfer16(data); }
 #endif
