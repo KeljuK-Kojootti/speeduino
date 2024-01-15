@@ -1552,6 +1552,9 @@ void setPinMapping(byte boardID)
         pinWMIEmpty = 0;
         pinWMIIndicator =0;
         pinWMIEnabled = 0;
+        pinFuelPressure = PC4;
+        pinOilPressure = PC5;
+        
 
       #elif defined(CORE_STM32)
         //https://github.com/stm32duino/Arduino_Core_STM32/blob/master/variants/Generic_F411Cx/variant.h#L28
