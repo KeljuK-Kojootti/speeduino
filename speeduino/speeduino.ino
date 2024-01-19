@@ -64,6 +64,7 @@ void setup(void)
 {
   currentStatus.initialisationComplete = false; //Tracks whether the initialiseAll() function has run completely
   initialiseAll();
+  pinMode(PC12, OUTPUT);
 }
 
 inline uint16_t applyFuelTrimToPW(trimTable3d *pTrimTable, int16_t fuelLoad, int16_t RPM, uint16_t currentPW)
@@ -93,6 +94,12 @@ void loop(void)
       mainLoopCount++;
       LOOP_TIMER = TIMER_mask;
 
+      static int prevMillis=0;
+
+      if (millis()> prevMillis+1000)
+      {
+        //digitalWrite(pinTachOut, LOW);
+      }
       //SERIAL Comms
       //Initially check that the last serial send values request is not still outstanding
       if (serialTransmitInProgress())
