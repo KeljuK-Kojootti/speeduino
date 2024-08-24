@@ -95,6 +95,8 @@ void loop(void)
       LOOP_TIMER = TIMER_mask;
 
       static int prevMillis=0;
+      static int prevCanSendTime=0;
+      int canSendCycleTime = 1000;
 
       if (millis()> prevMillis+1000)
       {
@@ -133,6 +135,18 @@ void loop(void)
           {
             can_Command();
             readAuxCanBus();
+          }
+          CAN_message_t coolantCanMessage;
+
+          if (millis() > prevCanSendTime + canSendCycleTime)
+          {
+          coolantCanMessage.id = 0x5f2;
+          coolantCanMessage.len = 8;
+          coolantCanMessage.buf[7] = (int8_t)currentStatus.coolant >> 8;
+          coolantCanMessage.buf[8] = (int8_t)currentStatus.coolant;
+
+          Can0.write(coolantCanMessage);
+          prevCanSendTime = millis();
           }
         }   
       #endif
